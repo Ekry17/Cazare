@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="ro" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casa Bucuriei - Pensiune Tradițională</title>
+    <meta name="description" content="Pensiune tradițională în inima Transilvaniei. Cazare confortabilă, mâncare tradițională și experiențe autentice.">
+    
+    <!-- TailwindCSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#8B5A3C',
+                        secondary: '#D4A574',
+                        accent: '#6B7280'
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                        'serif': ['Playfair Display', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Heroicons CDN -->
+    <script src="https://unpkg.com/heroicons@2.0.18/24/outline/index.js"></script>
+    
+    <style>
+        .hero-bg {
+            background: linear-gradient(135deg, rgb(30, 225, 209), rgba(255, 89, 0, 0.6)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500"><rect fill="%238B5A3C" width="1000" height="500"/><circle fill="%23D4A574" cx="200" cy="150" r="80" opacity="0.3"/><circle fill="%23F3E8D8" cx="800" cy="350" r="120" opacity="0.2"/></svg>');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 leading-relaxed">
+    
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full z-50 top-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <div class="bg-primary text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg">
+                        CB
+                    </div>
+                    <span class="ml-3 text-xl font-serif font-semibold text-primary">Casa Bucuriei</span>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="text-gray-700 hover:text-primary transition duration-300 font-medium">Acasă</a>
+                    <a href="#about" class="text-gray-700 hover:text-primary transition duration-300 font-medium">Despre Noi</a>
+                    <a href="#services" class="text-gray-700 hover:text-primary transition duration-300 font-medium">Servicii</a>
+                    <a href="#testimonials" class="text-gray-700 hover:text-primary transition duration-300 font-medium">Opinii</a>
+                    <a href="#contact" class="text-gray-700 hover:text-primary transition duration-300 font-medium">Contact</a>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-primary focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="md:hidden hidden pb-4">
+                <a href="#home" class="block py-2 text-gray-700 hover:text-primary transition duration-300">Acasă</a>
+                <a href="#about" class="block py-2 text-gray-700 hover:text-primary transition duration-300">Despre Noi</a>
+                <a href="#services" class="block py-2 text-gray-700 hover:text-primary transition duration-300">Servicii</a>
+                <a href="#testimonials" class="block py-2 text-gray-700 hover:text-primary transition duration-300">Opinii</a>
+                <a href="#contact" class="block py-2 text-gray-700 hover:text-primary transition duration-300">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-bg min-h-screen flex items-center justify-center text-center text-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-4xl md:text-6xl font-serif font-bold mb-6 leading-tight">
+                Bun venit la <span class="text-secondary">Casa Bucuriei</span>
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 text-gray-100 max-w-3xl mx-auto leading-relaxed">
+                Descoperă autenticitatea Transilvaniei într-o pensiune tradițională cu o atmosferă caldă și ospitalitate românească
+            </p>
+            <div class="space-y-4 sm:space-y-0 sm:space-x-4 sm:flex sm:justify-center">
+                <a href="#contact" class="inline-block bg-secondary hover:bg-yellow-500 text-primary font-semibold px-8 py-4 rounded-full transition duration-300 transform hover:scale-105 shadow-lg">
+                    Rezervă Acum
+                </a>
+                <a href="#about" class="inline-block border-2 border-white hover:bg-white hover:text-primary text-white font-semibold px-8 py-4 rounded-full transition duration-300">
+                    Află Mai Mult
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-serif font-bold text-primary mb-6">
+                        O Experiență Autentică în Inima Transilvaniei
+                    </h2>
+                    <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+                        Casa Bucuriei este o pensiune tradițională situată într-un sat pitoresc din Transilvania, 
+                        unde timpul pare să fi stat în loc și natura își dezvăluie frumusețea în fiecare anotimp.
+                    </p>
+                    <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                        Oferim oaspeților noștri nu doar cazare confortabilă, ci o adevărată experiență culturală, 
+                        cu mâncare tradițională preparată din ingrediente locale și activități care vă conectează 
+                        cu tradițiile și obiceiurile românești.
+                    </p>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-primary">15+</div>
+                            <div class="text-gray-600">Ani de experiență</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-primary">500+</div>
+                            <div class="text-gray-600">Oaspeți mulțumiți</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="bg-secondary rounded-2xl p-8 shadow-xl">
+                        <div class="bg-white rounded-xl p-6 text-center">
+                            <div class="w-32 h-32 mx-auto bg-primary rounded-full flex items-center justify-center text-white text-4xl font-bold mb-4">
+                                🏠
+                            </div>
+                            <h3 class="text-xl font-semibold text-primary mb-2">Casa Tradițională</h3>
+                            <p class="text-gray-600">Arhitectură autentică românească cu toate conforturile moderne</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-serif font-bold text-primary mb-4">
+                    Serviciile Noastre
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Oferim o gamă completă de servicii pentru a vă face sejurul cât mai plăcut și memorabil
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Service 1 -->
+                <div class="bg-gray-50 rounded-xl p-8 text-center hover:shadow-lg transition duration-300 hover:-translate-y-2">
+                    <div class="w-16 h-16 mx-auto bg-primary rounded-full flex items-center justify-center text-white text-2xl mb-6">
+                        🛏️
+                    </div>
+                    <h3 class="text-xl font-semibold text-primary mb-4">Cazare Confortabilă</h3>
+                    <p class="text-gray-600">Camere tradiționale amenajate cu mobilier rustic și toate facilitățile moderne</p>
+                </div>
+                
+                <!-- Service 2 -->
+                <div class="bg-gray-50 rounded-xl p-8 text-center hover:shadow-lg transition duration-300 hover:-translate-y-2">
+                    <div class="w-16 h-16 mx-auto bg-primary rounded-full flex items-center justify-center text-white text-2xl mb-6">
+                        🍽️
+                    </div>
+                    <h3 class="text-xl font-semibold text-primary mb-4">Mâncare Tradițională</h3>
+                    <p class="text-gray-600">Preparate autentice din ingrediente locale și rețete transmise din generație în generație</p>
+                </div>
+                
+                <!-- Service 3 -->
+                <div class="bg-gray-50 rounded-xl p-8 text-center hover:shadow-lg transition duration-300 hover:-translate-y-2">
+                    <div class="w-16 h-16 mx-auto bg-primary rounded-full flex items-center justify-center text-white text-2xl mb-6">
+                        🥾
+                    </div>
+                    <h3 class="text-xl font-semibold text-primary mb-4">Activități în Natură</h3>
+                    <p class="text-gray-600">Drumeții în munți, plimbări cu căruța și excursii la obiective turistice locale</p>
+                </div>
+                
+                <!-- Service 4 -->
+                <div class="bg-gray-50 rounded-xl p-8 text-center hover:shadow-lg transition duration-300 hover:-translate-y-2">
+                    <div class="w-16 h-16 mx-auto bg-primary rounded-full flex items-center justify-center text-white text-2xl mb-6">
+                        🎭
+                    </div>
+                    <h3 class="text-xl font-semibold text-primary mb-4">Experiențe Culturale</h3>
+                    <p class="text-gray-600">Ateliere de artizanat local, seri folclorice și întâlniri cu meșteșugarii din zonă</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-serif font-bold text-primary mb-4">
+                    Ce Spun Oaspeții Noștri
+                </h2>
+                <p class="text-xl text-gray-600">
+                    Experiențele autentice create aici rămân în sufletele oamenilor
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-white rounded-xl p-8 shadow-lg">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center text-primary font-bold text-lg">
+                            AM
+                        </div>
+                        <div class="ml-4">
+                            <div class="font-semibold text-primary">Ana Maria</div>
+                            <div class="text-gray-600 text-sm">București</div>
+                        </div>
+                    </div>
+                    <div class="flex text-yellow-400 mb-4">
+                        ⭐⭐⭐⭐⭐
+                    </div>
+                    <p class="text-gray-600 italic">
+                        "O experiență de neuitat! Casa Bucuriei ne-a oferit tot ce ne-am dorit: liniște, mâncare delicioasă și o atmosferă caldă. Vom reveni cu siguranță!"
+                    </p>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="bg-white rounded-xl p-8 shadow-lg">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center text-primary font-bold text-lg">
+                            MC
+                        </div>
+                        <div class="ml-4">
+                            <div class="font-semibold text-primary">Mihai Constantin</div>
+                            <div class="text-gray-600 text-sm">Cluj-Napoca</div>
+                        </div>
+                    </div>
+                    <div class="flex text-yellow-400 mb-4">
+                        ⭐⭐⭐⭐⭐
+                    </div>
+                    <p class="text-gray-600 italic">
+                        "Găzduire perfectă pentru o vacanță în familie. Copiii s-au distrat de minune, iar noi am redescoperit frumusețea tradițiilor românești."
+                    </p>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="bg-white rounded-xl p-8 shadow-lg">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center text-primary font-bold text-lg">
+                            ER
+                        </div>
+                        <div class="ml-4">
+                            <div class="font-semibold text-primary">Elena Radu</div>
+                            <div class="text-gray-600 text-sm">Brașov</div>
+                        </div>
+                    </div>
+                    <div class="flex text-yellow-400 mb-4">
+                        ⭐⭐⭐⭐⭐
+                    </div>
+                    <p class="text-gray-600 italic">
+                        "Locația ideală pentru a te deconecta de agitația urbană. Personalul foarte amabil și mâncarea absolut delicioasă. Recomand cu căldură!"
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-serif font-bold text-primary mb-4">
+                    Rezervă-ți Sejurul
+                </h2>
+                <p class="text-xl text-gray-600">
+                    Suntem aici să îți oferim o experiență de neuitat
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12">
+                <!-- Contact Form -->
+                <div>
+                    <form id="reservationForm" class="space-y-6">
+                        <!-- Mesaje de succes/eroare -->
+                        <div id="formMessages" class="hidden"></div>
+                        
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Nume *</label>
+                                <input type="text" id="name" name="name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition duration-200" placeholder="Numele tău">
+                                <div class="error-message hidden text-red-600 text-sm mt-1"></div>
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email *</label>
+                                <input type="email" id="email" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition duration-200" placeholder="email@exemplu.com">
+                                <div class="error-message hidden text-red-600 text-sm mt-1"></div>
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <div>
+                                <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Telefon</label>
+                                <input type="tel" id="phone" name="phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition duration-200" placeholder="+40 7XX XXX XXX">
+                                <div class="error-message hidden text-red-600 text-sm mt-1"></div>
+                            </div>
+                            <div>
+                                <label for="checkin" class="block text-sm font-medium text-gray-700 mb-2">Check-in *</label>
+                                <input type="date" id="checkin" name="checkin" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition duration-200">
+                                <div class="error-message hidden text-red-600 text-sm mt-1"></div>
+                            </div>
+                            <div>
+                                <label for="checkout" class="block text-sm font-medium text-gray-700 mb-2">Check-out *</label>
+                                <input type="date" id="checkout" name="checkout" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition duration-200">
+                                <div class="error-message hidden text-red-600 text-sm mt-1"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="guests" class="block text-sm font-medium text-gray-700 mb-2">Numărul de oaspeți *</label>
+                            <select id="guests" name="guests" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition duration-200">
+                                <option value="">Selectează numărul de oaspeți</option>
+                                <option value="1">1 oaspete</option>
+                                <option value="2">2 oaspeți</option>
+                                <option value="3">3 oaspeți</option>
+                                <option value="4">4 oaspeți</option>
+                                <option value="5">5 oaspeți</option>
+                                <option value="6">6 oaspeți</option>
+                                <option value="7">7 oaspeți</option>
+                                <option value="8">8 oaspeți</option>
+                                <option value="9">9 oaspeți</option>
+                                <option value="10">10 oaspeți</option>
+                            </select>
+                            <div class="error-message hidden text-red-600 text-sm mt-1"></div>
+                        </div>
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Mesaj / Cerințe speciale</label>
+                            <textarea id="message" name="message" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition duration-200" placeholder="Cerințe speciale, întrebări sau alte informații..."></textarea>
+                            <div class="error-message hidden text-red-600 text-sm mt-1"></div>
+                        </div>
+                        
+                        <!-- Informații despre preț -->
+                        <div id="priceInfo" class="hidden bg-gray-50 rounded-lg p-4 border-l-4 border-primary">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-700">Preț estimativ:</span>
+                                <span id="estimatedPrice" class="text-primary font-semibold text-lg"></span>
+                            </div>
+                            <div class="text-sm text-gray-500 mt-1">
+                                <span id="nightsCount"></span> • Preț final va fi confirmat telefonic
+                            </div>
+                        </div>
+                        
+                        <button type="submit" id="submitBtn" class="w-full bg-primary hover:bg-opacity-90 text-white font-semibold py-4 px-8 rounded-lg transition duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
+                            <span id="submitText">Trimite Rezervarea</span>
+                            <div id="submitLoader" class="hidden flex items-center justify-center">
+                                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Se trimite...
+                            </div>
+                        </button>
+                        
+                        <p class="text-sm text-gray-500 text-center">
+                            * Câmpurile marcate sunt obligatorii. Rezervarea va fi confirmată telefonic în maximum 24 ore.
+                        </p>
+                    </form>
+                    
+                    <!-- Formular pentru mesaje generale (Contact) -->
+                    <div id="contactFormSection" class="hidden mt-8 pt-8 border-t border-gray-200">
+                        <h3 class="text-xl font-semibold text-primary mb-4">Sau trimiteți-ne un mesaj general</h3>
+                        <form id="contactForm" class="space-y-4">
+                            <div id="contactFormMessages" class="hidden"></div>
+                            
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="contactName" class="block text-sm font-medium text-gray-700 mb-2">Nume *</label>
+                                    <input type="text" id="contactName" name="name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition duration-200">
+                                </div>
+                                <div>
+                                    <label for="contactEmail" class="block text-sm font-medium text-gray-700 mb-2">Email *</label>
+                                    <input type="email" id="contactEmail" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition duration-200">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label for="contactSubject" class="block text-sm font-medium text-gray-700 mb-2">Subiect</label>
+                                <input type="text" id="contactSubject" name="subject" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition duration-200" placeholder="Subiectul mesajului">
+                            </div>
+                            
+                            <div>
+                                <label for="contactMessage" class="block text-sm font-medium text-gray-700 mb-2">Mesaj *</label>
+                                <textarea id="contactMessage" name="message" rows="4" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition duration-200" placeholder="Mesajul dvs..."></textarea>
+                            </div>
+                            
+                            <button type="submit" id="contactSubmitBtn" class="w-full bg-secondary hover:bg-yellow-500 text-primary font-semibold py-3 px-6 rounded-lg transition duration-300">
+                                <span id="contactSubmitText">Trimite Mesajul</span>
+                                <div id="contactSubmitLoader" class="hidden flex items-center justify-center">
+                                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    Se trimite...
+                                </div>
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <div class="mt-6 text-center">
+                        <button id="toggleContactForm" class="text-primary hover:text-secondary transition duration-300 text-sm underline">
+                            Doar o întrebare? Trimiteți un mesaj general
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Contact Info -->
+                <div class="space-y-8">
+                    <div>
+                        <h3 class="text-2xl font-serif font-semibold text-primary mb-6">Informații de Contact</h3>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white text-xl flex-shrink-0">
+                                    📍
+                                </div>
+                                <div class="ml-4">
+                                    <div class="font-semibold text-gray-800">Adresă</div>
+                                    <div class="text-gray-600">Sat Bucovina, Comuna Tradițională<br>Județul Mureș, România</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white text-xl flex-shrink-0">
+                                    📞
+                                </div>
+                                <div class="ml-4">
+                                    <div class="font-semibold text-gray-800">Telefon</div>
+                                    <div class="text-gray-600">+40 765 123 456</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white text-xl flex-shrink-0">
+                                    ✉️
+                                </div>
+                                <div class="ml-4">
+                                    <div class="font-semibold text-gray-800">Email</div>
+                                    <div class="text-gray-600">contact@casabucuriei.ro</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white text-xl flex-shrink-0">
+                                    🕒
+                                </div>
+                                <div class="ml-4">
+                                    <div class="font-semibold text-gray-800">Program</div>
+                                    <div class="text-gray-600">Check-in: 14:00<br>Check-out: 11:00</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-50 rounded-xl p-6">
+                        <h4 class="font-semibold text-primary mb-4">Conectează-te cu noi</h4>
+                        <div class="flex space-x-4">
+                            <a href="#" class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white hover:bg-opacity-80 transition duration-300">
+                                f
+                            </a>
+                            <a href="#" class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white hover:bg-opacity-80 transition duration-300">
+                                📷
+                            </a>
+                            <a href="#" class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white hover:bg-opacity-80 transition duration-300">
+                                🐦
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-primary text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="bg-secondary text-primary rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg">
+                            CB
+                        </div>
+                        <span class="ml-3 text-xl font-serif font-semibold">Casa Bucuriei</span>
+                    </div>
+                    <p class="text-gray-300 mb-4">
+                        O pensiune tradițională unde autenticitatea întâlnește confortul modern.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold text-lg mb-4">Linkuri Rapide</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-300 hover:text-secondary transition duration-300">Acasă</a></li>
+                        <li><a href="#about" class="text-gray-300 hover:text-secondary transition duration-300">Despre Noi</a></li>
+                        <li><a href="#services" class="text-gray-300 hover:text-secondary transition duration-300">Servicii</a></li>
+                        <li><a href="#contact" class="text-gray-300 hover:text-secondary transition duration-300">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold text-lg mb-4">Servicii</h4>
+                    <ul class="space-y-2">
+                        <li><span class="text-gray-300">Cazare</span></li>
+                        <li><span class="text-gray-300">Restaurant</span></li>
+                        <li><span class="text-gray-300">Activități</span></li>
+                        <li><span class="text-gray-300">Evenimente</span></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold text-lg mb-4">Contact</h4>
+                    <div class="space-y-2 text-gray-300">
+                        <div>📍 Sat Bucovina, Mureș</div>
+                        <div>📞 +40 765 123 456</div>
+                        <div>✉️ contact@casabucuriei.ro</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-600 mt-8 pt-8 text-center text-gray-300">
+                <p>&copy; 2025 Casa Bucuriei. Toate drepturile rezervate.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Mobile Menu and API Integration -->
+    <script>
+        // Configuration
+        const API_BASE_URL = window.location.origin + '/api';
+        const PRICE_PER_NIGHT = 150; // RON per night per guest
+        
+        // DOM Elements
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const reservationForm = document.getElementById('reservationForm');
+        const contactForm = document.getElementById('contactForm');
+        const toggleContactFormBtn = document.getElementById('toggleContactForm');
+        const contactFormSection = document.getElementById('contactFormSection');
+        
+        // Mobile menu toggle
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Toggle contact form
+        toggleContactFormBtn.addEventListener('click', () => {
+            contactFormSection.classList.toggle('hidden');
+            toggleContactFormBtn.textContent = contactFormSection.classList.contains('hidden') 
+                ? 'Doar o întrebare? Trimiteți un mesaj general'
+                : 'Ascunde formularul de contact';
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Close mobile menu if open
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+        
+        // Navbar background on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 100) {
+                nav.classList.add('bg-white', 'shadow-lg');
+            } else {
+                nav.classList.remove('bg-white', 'shadow-lg');
+            }
+        });
+        
+        // Date validation and price calculation
+        function setupDateValidation() {
+            const checkinInput = document.getElementById('checkin');
+            const checkoutInput = document.getElementById('checkout');
+            const guestsInput = document.getElementById('guests');
+            const priceInfo = document.getElementById('priceInfo');
+            const estimatedPrice = document.getElementById('estimatedPrice');
+            const nightsCount = document.getElementById('nightsCount');
+            
+            // Set minimum date to today
+            const today = new Date().toISOString().split('T')[0];
+            checkinInput.min = today;
+            
+            // Update checkout minimum when checkin changes
+            checkinInput.addEventListener('change', () => {
+                const checkinDate = new Date(checkinInput.value);
+                const nextDay = new Date(checkinDate);
+                nextDay.setDate(nextDay.getDate() + 1);
+                checkoutInput.min = nextDay.toISOString().split('T')[0];
+                
+                if (checkoutInput.value && checkoutInput.value <= checkinInput.value) {
+                    checkoutInput.value = '';
+                }
+                
+                calculatePrice();
+            });
+            
+            checkoutInput.addEventListener('change', calculatePrice);
+            guestsInput.addEventListener('change', calculatePrice);
+            
+            function calculatePrice() {
+                const checkin = checkinInput.value;
+                const checkout = checkoutInput.value;
+                const guests = parseInt(guestsInput.value) || 0;
+                
+                if (checkin && checkout && guests > 0) {
+                    const checkinDate = new Date(checkin);
+                    const checkoutDate = new Date(checkout);
+                    const nights = Math.ceil((checkoutDate - checkinDate) / (1000 * 60 * 60 * 24));
+                    
+                    if (nights > 0) {
+                        const totalPrice = nights * PRICE_PER_NIGHT * guests;
+                        estimatedPrice.textContent = `${totalPrice} RON`;
+                        nightsCount.textContent = `${nights} ${nights === 1 ? 'noapte' : 'nopți'} × ${guests} ${guests === 1 ? 'oaspete' : 'oaspeți'}`;
+                        priceInfo.classList.remove('hidden');
+                    } else {
+                        priceInfo.classList.add('hidden');
+                    }
+                } else {
+                    priceInfo.classList.add('hidden');
+                }
+            }
+        }
+        
+        // Utility functions
+        function showMessage(containerId, message, type = 'success') {
+            const container = document.getElementById(containerId);
+            const className = type === 'error' ? 'bg-red-100 border border-red-400 text-red-700' : 'bg-green-100 border border-green-400 text-green-700';
+            container.innerHTML = `
+                <div class="${className} px-4 py-3 rounded-lg mb-4">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            ${type === 'error' ? '❌' : '✅'}
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm font-medium">${message}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.classList.remove('hidden');
+            
+            // Auto-hide success messages after 10 seconds
+            if (type === 'success') {
+                setTimeout(() => {
+                    container.classList.add('hidden');
+                }, 10000);
+            }
+        }
+        
+        function clearErrors(form) {
+            form.querySelectorAll('.error-message').forEach(error => {
+                error.classList.add('hidden');
+                error.textContent = '';
+            });
+            form.querySelectorAll('input, select, textarea').forEach(input => {
+                input.classList.remove('border-red-500');
+            });
+        }
+        
+        function showFieldErrors(form, errors) {
+            errors.forEach(error => {
+                const field = form.querySelector(`[name="${error.path || error.param}"]`);
+                if (field) {
+                    field.classList.add('border-red-500');
+                    const errorDiv = field.parentNode.querySelector('.error-message');
+                    if (errorDiv) {
+                        errorDiv.textContent = error.msg || error.message;
+                        errorDiv.classList.remove('hidden');
+                    }
+                }
+            });
+        }
+        
+        function setLoading(btnId, loaderId, textId, isLoading) {
+            const btn = document.getElementById(btnId);
+            const loader = document.getElementById(loaderId);
+            const text = document.getElementById(textId);
+            
+            btn.disabled = isLoading;
+            if (isLoading) {
+                text.classList.add('hidden');
+                loader.classList.remove('hidden');
+            } else {
+                text.classList.remove('hidden');
+                loader.classList.add('hidden');
+            }
+        }
+        
+        // Reservation form handler
+        async function handleReservationSubmit(e) {
+            e.preventDefault();
+            
+            clearErrors(reservationForm);
+            setLoading('submitBtn', 'submitLoader', 'submitText', true);
+            
+            const formData = new FormData(reservationForm);
+            const data = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                checkinDate: formData.get('checkin'),
+                checkoutDate: formData.get('checkout'),
+                guests: parseInt(formData.get('guests')),
+                message: formData.get('message')
+            };
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/reservations`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showMessage('formMessages', 
+                        `Rezervarea a fost trimisă cu succes! Codul dvs. de confirmare este: <strong>${result.data.confirmationCode}</strong>. Veți primi un email de confirmare în curând.`
+                    );
+                    reservationForm.reset();
+                    document.getElementById('priceInfo').classList.add('hidden');
+                } else {
+                    if (result.errors && Array.isArray(result.errors)) {
+                        showFieldErrors(reservationForm, result.errors);
+                    }
+                    showMessage('formMessages', result.message || 'A apărut o eroare. Te rugăm să încerci din nou.', 'error');
+                }
+            } catch (error) {
+                console.error('Error submitting reservation:', error);
+                showMessage('formMessages', 'Eroare de conexiune. Te rugăm să verifici conexiunea la internet și să încerci din nou.', 'error');
+            } finally {
+                setLoading('submitBtn', 'submitLoader', 'submitText', false);
+            }
+        }
+        
+        // Contact form handler
+        async function handleContactSubmit(e) {
+            e.preventDefault();
+            
+            clearErrors(contactForm);
+            setLoading('contactSubmitBtn', 'contactSubmitLoader', 'contactSubmitText', true);
+            
+            const formData = new FormData(contactForm);
+            const data = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                subject: formData.get('subject'),
+                message: formData.get('message')
+            };
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/contact`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showMessage('contactFormMessages', 'Mesajul dvs. a fost trimis cu succes! Vă vom răspunde în cel mai scurt timp posibil.');
+                    contactForm.reset();
+                } else {
+                    if (result.errors && Array.isArray(result.errors)) {
+                        showFieldErrors(contactForm, result.errors);
+                    }
+                    showMessage('contactFormMessages', result.message || 'A apărut o eroare. Te rugăm să încerci din nou.', 'error');
+                }
+            } catch (error) {
+                console.error('Error submitting contact:', error);
+                showMessage('contactFormMessages', 'Eroare de conexiune. Te rugăm să verifici conexiunea la internet și să încerci din nou.', 'error');
+            } finally {
+                setLoading('contactSubmitBtn', 'contactSubmitLoader', 'contactSubmitText', false);
+            }
+        }
+        
+        // Load reviews dynamically
+        async function loadReviews() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/reviews?limit=6&featured=true`);
+                if (response.ok) {
+                    const result = await response.json();
+                    // Reviews are already in HTML, but we could replace them with dynamic content
+                    console.log('Reviews loaded:', result.data.reviews);
+                }
+            } catch (error) {
+                console.error('Error loading reviews:', error);
+            }
+        }
+        
+        // Check availability for a specific date
+        async function checkAvailability(date) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/reservations/availability/${date}`);
+                const result = await response.json();
+                return result.data.available;
+            } catch (error) {
+                console.error('Error checking availability:', error);
+                return true; // Assume available if can't check
+            }
+        }
+        
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            setupDateValidation();
+            
+            // Add event listeners
+            if (reservationForm) {
+                reservationForm.addEventListener('submit', handleReservationSubmit);
+            }
+            
+            if (contactForm) {
+                contactForm.addEventListener('submit', handleContactSubmit);
+            }
+            
+            // Load dynamic content
+            loadReviews();
+            
+            // Show contact form toggle
+            if (toggleContactFormBtn) {
+                toggleContactFormBtn.style.display = 'block';
+            }
+        });
+        
+        // API Health Check (optional - for debugging)
+        async function checkAPIHealth() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/health`);
+                const result = await response.json();
+                console.log('API Health:', result);
+            } catch (error) {
+                console.warn('API not available:', error.message);
+            }
+        }
+        
+        // Check API health on load (only in development)
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            checkAPIHealth();
+        }
+    </script>
+</body>
+</html>
