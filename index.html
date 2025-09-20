@@ -8,6 +8,8 @@
     
     <!-- TailwindCSS CDN -->
         <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configurare centralizată -->
+    <script src="./config.js"></script>
 </head>
     
     <script>
@@ -860,15 +862,18 @@
         // Funcție pentru trimiterea emailului de rezervare către proprietar și client
         async function sendReservationEmail(reservationData, confirmationCode) {
             try {
-                // Calculează numărul de nopți și prețul
+                // Folosește configurarea centralizată
+                const config = window.CASA_BUCURIEI_CONFIG;
+                const ownerEmail = config.OWNER_EMAIL;
+                
+                // Calculează numărul de nopți și prețul folosind funcția din config
                 const checkInDate = new Date(reservationData.checkinDate);
                 const checkOutDate = new Date(reservationData.checkoutDate);
                 const nights = Math.ceil((checkOutDate - checkInDate) / (1000 * 60 * 60 * 24));
-                const pricePerNight = 150;
-                const totalPrice = nights * pricePerNight * reservationData.guests;
+                const totalPrice = window.calculateTotalPrice(reservationData.checkinDate, reservationData.checkoutDate, reservationData.guests);
 
-                // EMAIL CĂTRE PROPRIETAR (ecryecry17@gmail.com)
-                const emailToOwner = `🏠 NOUĂ REZERVARE - CASA BUCURIEI
+                // EMAIL CĂTRE PROPRIETAR
+                const emailToOwner = `🏠 NOUĂ REZERVARE - ${config.BUSINESS_INFO.name.toUpperCase()}
 
 📋 DETALII REZERVARE:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -882,7 +887,7 @@
 🛏️ Durata: ${nights} ${nights === 1 ? 'noapte' : 'nopți'}
 👥 Numărul de oaspeți: ${reservationData.guests}
 
-💰 Preț estimat: ${totalPrice} RON
+💰 Preț estimat: ${totalPrice} ${config.PROPERTY_DETAILS.currency}
 📝 Cod confirmare: ${confirmationCode}
 
 💬 MESAJ CLIENT:
@@ -896,22 +901,22 @@ ${reservationData.message || 'Nu a fost specificat niciun mesaj.'}
 
                 // Trimite email către proprietar
                 const formDataOwner = new FormData();
-                formDataOwner.append('_subject', '🏠 NOUĂ REZERVARE - Casa Bucuriei');
+                formDataOwner.append('_subject', config.EMAIL_CONFIG.subjectReservation);
                 formDataOwner.append('_template', 'box');
                 formDataOwner.append('_captcha', 'false');
-                formDataOwner.append('_replyto', reservationData.email); // Pentru răspuns direct la client
+                formDataOwner.append('_replyto', reservationData.email);
                 formDataOwner.append('nume_client', reservationData.name);
                 formDataOwner.append('email_client', reservationData.email);
                 formDataOwner.append('telefon_client', reservationData.phone);
                 formDataOwner.append('mesaj_complet', emailToOwner);
 
-                await fetch('https://formsubmit.co/ecryecry17@gmail.com', {
+                await fetch(`https://formsubmit.co/${ownerEmail}`, {
                     method: 'POST',
                     body: formDataOwner
                 });
 
                 // EMAIL DE CONFIRMARE CĂTRE CLIENT
-                const emailToClient = `🏠 CONFIRMARE REZERVARE - CASA BUCURIEI
+                const emailToClient = `🏠 CONFIRMARE REZERVARE - ${config.BUSINESS_INFO.name.toUpperCase()}
 
 Bună ${reservationData.name}!
 
@@ -920,11 +925,11 @@ Bună ${reservationData.name}!
 📋 DETALII REZERVARE:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-📅 Check-in: ${checkInDate.toLocaleDateString('ro-RO')}
-📅 Check-out: ${checkOutDate.toLocaleDateString('ro-RO')}
+📅 Check-in: ${checkInDate.toLocaleDateString('ro-RO')} (${config.PROPERTY_DETAILS.checkInTime})
+📅 Check-out: ${checkOutDate.toLocaleDateString('ro-RO')} (${config.PROPERTY_DETAILS.checkOutTime})
 🛏️ Durata: ${nights} ${nights === 1 ? 'noapte' : 'nopți'}
 👥 Numărul de oaspeți: ${reservationData.guests}
-💰 Preț estimat: ${totalPrice} RON
+💰 Preț estimat: ${totalPrice} ${config.PROPERTY_DETAILS.currency}
 📝 Cod confirmare: ${confirmationCode}
 
 🎯 CE URMEAZĂ:
@@ -933,19 +938,19 @@ Bună ${reservationData.name}!
 • Păstrează acest cod de confirmare: ${confirmationCode}
 
 📞 CONTACT:
-Pentru întrebări, răspunde la acest email sau sună la numărul care îți va fi comunicat.
+Pentru întrebări, răspunde la acest email sau sună la ${config.BUSINESS_INFO.phone}.
 
-🏠 Casa Bucuriei - Vacanțe de neuitat!
+🏠 ${config.BUSINESS_INFO.name} - ${config.BUSINESS_INFO.description}!
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Mulțumim pentru rezervare! Te așteptăm cu drag! 🌟`;
 
                 // Trimite email către client
                 const formDataClient = new FormData();
-                formDataClient.append('_subject', '✅ Confirmare rezervare - Casa Bucuriei');
+                formDataClient.append('_subject', config.EMAIL_CONFIG.subjectConfirmation);
                 formDataClient.append('_template', 'box');
                 formDataClient.append('_captcha', 'false');
-                formDataClient.append('_replyto', 'ecryecry17@gmail.com'); // Pentru răspuns la proprietar
+                formDataClient.append('_replyto', ownerEmail);
                 formDataClient.append('cod_confirmare', confirmationCode);
                 formDataClient.append('mesaj_confirmare', emailToClient);
 
@@ -963,6 +968,9 @@ Mulțumim pentru rezervare! Te așteptăm cu drag! 🌟`;
         // Funcție pentru trimiterea emailului de contact via webhook
         async function sendContactEmail(contactData) {
             try {
+                // Folosește configurarea centralizată
+                const config = window.CASA_BUCURIEI_CONFIG;
+                
                 // EMAIL CĂTRE PROPRIETAR
                 const emailToOwner = `💬 MESAJ CONTACT - CASA BUCURIEI
 
@@ -992,7 +1000,7 @@ ${contactData.message}
                 formDataOwner.append('subiect_mesaj', contactData.subject);
                 formDataOwner.append('mesaj_complet', emailToOwner);
 
-                await fetch('https://formsubmit.co/ecryecry17@gmail.com', {
+                await fetch(`https://formsubmit.co/${config.OWNER_EMAIL}`, {
                     method: 'POST',
                     body: formDataOwner
                 });
