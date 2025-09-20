@@ -7,7 +7,9 @@
     <meta name="description" content="Pensiune tradițională în inima Transilvaniei. Cazare confortabilă, mâncare tradițională și experiențe autentice.">
     
     <!-- TailwindCSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+</head>
+    
     <script>
         tailwind.config = {
             theme: {
@@ -727,6 +729,7 @@
             };
             
             try {
+                // Trimite la API
                 const response = await fetch(`${API_BASE_URL}/reservations`, {
                     method: 'POST',
                     headers: {
@@ -738,6 +741,9 @@
                 const result = await response.json();
                 
                 if (response.ok) {
+                    // Trimite email de notificare
+                    await sendReservationEmail(data, result.data.confirmationCode);
+                    
                     showMessage('formMessages', 
                         `Rezervarea a fost trimisă cu succes! Codul dvs. de confirmare este: <strong>${result.data.confirmationCode}</strong>. Veți primi un email de confirmare în curând.`
                     );
@@ -784,6 +790,9 @@
                 const result = await response.json();
                 
                 if (response.ok) {
+                    // Trimite email de notificare
+                    await sendContactEmail(data);
+                    
                     showMessage('contactFormMessages', 'Mesajul dvs. a fost trimis cu succes! Vă vom răspunde în cel mai scurt timp posibil.');
                     contactForm.reset();
                 } else {
@@ -847,6 +856,189 @@
                 toggleContactFormBtn.style.display = 'block';
             }
         });
+
+        // Funcție pentru trimiterea emailului de rezervare către proprietar și client
+        async function sendReservationEmail(reservationData, confirmationCode) {
+            try {
+                // Calculează numărul de nopți și prețul
+                const checkInDate = new Date(reservationData.checkinDate);
+                const checkOutDate = new Date(reservationData.checkoutDate);
+                const nights = Math.ceil((checkOutDate - checkInDate) / (1000 * 60 * 60 * 24));
+                const pricePerNight = 150;
+                const totalPrice = nights * pricePerNight * reservationData.guests;
+
+                // EMAIL CĂTRE PROPRIETAR (ecryecry17@gmail.com)
+                const emailToOwner = `🏠 NOUĂ REZERVARE - CASA BUCURIEI
+
+📋 DETALII REZERVARE:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+👤 Client: ${reservationData.name}
+📧 Email: ${reservationData.email}
+📞 Telefon: ${reservationData.phone}
+
+📅 Check-in: ${checkInDate.toLocaleDateString('ro-RO')}
+📅 Check-out: ${checkOutDate.toLocaleDateString('ro-RO')}
+🛏️ Durata: ${nights} ${nights === 1 ? 'noapte' : 'nopți'}
+👥 Numărul de oaspeți: ${reservationData.guests}
+
+💰 Preț estimat: ${totalPrice} RON
+📝 Cod confirmare: ${confirmationCode}
+
+💬 MESAJ CLIENT:
+${reservationData.message || 'Nu a fost specificat niciun mesaj.'}
+
+⏰ Data rezervării: ${new Date().toLocaleString('ro-RO')}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 Te rugăm să contactezi clientul în cel mai scurt timp pentru confirmarea rezervării.
+📧 RĂSPUNDE DIRECT LA: ${reservationData.email}`;
+
+                // Trimite email către proprietar
+                const formDataOwner = new FormData();
+                formDataOwner.append('_subject', '🏠 NOUĂ REZERVARE - Casa Bucuriei');
+                formDataOwner.append('_template', 'box');
+                formDataOwner.append('_captcha', 'false');
+                formDataOwner.append('_replyto', reservationData.email); // Pentru răspuns direct la client
+                formDataOwner.append('nume_client', reservationData.name);
+                formDataOwner.append('email_client', reservationData.email);
+                formDataOwner.append('telefon_client', reservationData.phone);
+                formDataOwner.append('mesaj_complet', emailToOwner);
+
+                await fetch('https://formsubmit.co/ecryecry17@gmail.com', {
+                    method: 'POST',
+                    body: formDataOwner
+                });
+
+                // EMAIL DE CONFIRMARE CĂTRE CLIENT
+                const emailToClient = `🏠 CONFIRMARE REZERVARE - CASA BUCURIEI
+
+Bună ${reservationData.name}!
+
+✅ REZERVAREA TA A FOST PRIMITĂ CU SUCCES!
+
+📋 DETALII REZERVARE:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📅 Check-in: ${checkInDate.toLocaleDateString('ro-RO')}
+📅 Check-out: ${checkOutDate.toLocaleDateString('ro-RO')}
+🛏️ Durata: ${nights} ${nights === 1 ? 'noapte' : 'nopți'}
+👥 Numărul de oaspeți: ${reservationData.guests}
+💰 Preț estimat: ${totalPrice} RON
+📝 Cod confirmare: ${confirmationCode}
+
+🎯 CE URMEAZĂ:
+• Proprietarul va reveni în cel mai scurt timp cu confirmarea
+• Vei primi detalii despre plată și check-in
+• Păstrează acest cod de confirmare: ${confirmationCode}
+
+📞 CONTACT:
+Pentru întrebări, răspunde la acest email sau sună la numărul care îți va fi comunicat.
+
+🏠 Casa Bucuriei - Vacanțe de neuitat!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Mulțumim pentru rezervare! Te așteptăm cu drag! 🌟`;
+
+                // Trimite email către client
+                const formDataClient = new FormData();
+                formDataClient.append('_subject', '✅ Confirmare rezervare - Casa Bucuriei');
+                formDataClient.append('_template', 'box');
+                formDataClient.append('_captcha', 'false');
+                formDataClient.append('_replyto', 'ecryecry17@gmail.com'); // Pentru răspuns la proprietar
+                formDataClient.append('cod_confirmare', confirmationCode);
+                formDataClient.append('mesaj_confirmare', emailToClient);
+
+                await fetch(`https://formsubmit.co/${reservationData.email}`, {
+                    method: 'POST',
+                    body: formDataClient
+                });
+
+                console.log('✅ Email-uri trimise: către proprietar ȘI către client!');
+            } catch (error) {
+                console.error('❌ Eroare la trimiterea emailurilor:', error);
+            }
+        }
+
+        // Funcție pentru trimiterea emailului de contact via webhook
+        async function sendContactEmail(contactData) {
+            try {
+                // EMAIL CĂTRE PROPRIETAR
+                const emailToOwner = `💬 MESAJ CONTACT - CASA BUCURIEI
+
+📋 DETALII MESAJ:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+👤 Expeditor: ${contactData.name}
+📧 Email: ${contactData.email}
+📌 Subiect: ${contactData.subject}
+
+💬 MESAJ:
+${contactData.message}
+
+⏰ Data mesajului: ${new Date().toLocaleString('ro-RO')}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+� RĂSPUNDE DIRECT LA: ${contactData.email}`;
+
+                // Trimite email către proprietar
+                const formDataOwner = new FormData();
+                formDataOwner.append('_subject', '💬 MESAJ CONTACT - Casa Bucuriei');
+                formDataOwner.append('_template', 'box');
+                formDataOwner.append('_captcha', 'false');
+                formDataOwner.append('_replyto', contactData.email); // Pentru răspuns direct la expeditor
+                formDataOwner.append('nume_expeditor', contactData.name);
+                formDataOwner.append('email_expeditor', contactData.email);
+                formDataOwner.append('subiect_mesaj', contactData.subject);
+                formDataOwner.append('mesaj_complet', emailToOwner);
+
+                await fetch('https://formsubmit.co/ecryecry17@gmail.com', {
+                    method: 'POST',
+                    body: formDataOwner
+                });
+
+                // EMAIL DE CONFIRMARE CĂTRE EXPEDITOR
+                const emailToSender = `💬 CONFIRMARE MESAJ - CASA BUCURIEI
+
+Bună ${contactData.name}!
+
+✅ MESAJUL TĂU A FOST PRIMIT CU SUCCES!
+
+📋 DETALII MESAJ:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📌 Subiect: ${contactData.subject}
+💬 Mesajul tău: ${contactData.message}
+⏰ Trimis la: ${new Date().toLocaleString('ro-RO')}
+
+🎯 CE URMEAZĂ:
+• Vom reveni cu un răspuns în cel mai scurt timp
+• Verifică inbox-ul pentru răspunsul nostru
+• Pentru urgențe, sună direct la numărul de pe site
+
+🏠 Casa Bucuriei - Îți mulțumim pentru interes!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Răspunsul nostru va ajunge direct în inbox-ul tău! 📧`;
+
+                // Trimite email către expeditor
+                const formDataSender = new FormData();
+                formDataSender.append('_subject', '✅ Am primit mesajul tău - Casa Bucuriei');
+                formDataSender.append('_template', 'box');
+                formDataSender.append('_captcha', 'false');
+                formDataSender.append('_replyto', 'ecryecry17@gmail.com'); // Pentru răspuns la proprietar
+                formDataSender.append('mesaj_confirmare', emailToSender);
+
+                await fetch(`https://formsubmit.co/${contactData.email}`, {
+                    method: 'POST',
+                    body: formDataSender
+                });
+
+                console.log('✅ Email-uri trimise: către proprietar ȘI către expeditor!');
+            } catch (error) {
+                console.error('❌ Eroare la trimiterea emailurilor de contact:', error);
+            }
+        }
         
         // API Health Check (optional - for debugging)
         async function checkAPIHealth() {
