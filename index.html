@@ -8,8 +8,6 @@
     
     <!-- TailwindCSS CDN -->
         <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Configurare centralizată -->
-    <script src="./config.js"></script>
 </head>
     
     <script>
@@ -731,35 +729,33 @@
             };
             
             try {
-                // Trimite la API
-                const response = await fetch(`${API_BASE_URL}/reservations`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                });
+                // Generează cod de confirmare
+                const confirmationCode = 'RBR' + Date.now().toString().slice(-6);
                 
-                const result = await response.json();
+                // Trimite email-urile INSTANT
+                await sendReservationEmails(data, confirmationCode);
                 
-                if (response.ok) {
-                    // Trimite email de notificare
-                    await sendReservationEmail(data, result.data.confirmationCode);
-                    
-                    showMessage('formMessages', 
-                        `Rezervarea a fost trimisă cu succes! Codul dvs. de confirmare este: <strong>${result.data.confirmationCode}</strong>. Veți primi un email de confirmare în curând.`
-                    );
-                    reservationForm.reset();
-                    document.getElementById('priceInfo').classList.add('hidden');
-                } else {
-                    if (result.errors && Array.isArray(result.errors)) {
-                        showFieldErrors(reservationForm, result.errors);
-                    }
-                    showMessage('formMessages', result.message || 'A apărut o eroare. Te rugăm să încerci din nou.', 'error');
+                // Încearcă să salveze în API (opțional)
+                try {
+                    await fetch(`${API_BASE_URL}/reservations`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ ...data, confirmationCode })
+                    });
+                } catch (apiError) {
+                    console.warn('API not available, but emails sent successfully');
                 }
+
+                // Afișează mesajul de succes
+                showMessage('formMessages', 
+                    `Rezervarea a fost trimisă cu succes! Codul dvs. de confirmare este: <strong>${confirmationCode}</strong>. Ai primit email de confirmare.`
+                );
+                reservationForm.reset();
+                document.getElementById('priceInfo').classList.add('hidden');
+                
             } catch (error) {
                 console.error('Error submitting reservation:', error);
-                showMessage('formMessages', 'Eroare de conexiune. Te rugăm să verifici conexiunea la internet și să încerci din nou.', 'error');
+                showMessage('formMessages', 'Eroare la trimiterea rezervării. Te rugăm să încerci din nou.', 'error');
             } finally {
                 setLoading('submitBtn', 'submitLoader', 'submitText', false);
             }
@@ -860,117 +856,36 @@
         });
 
         // Funcție pentru trimiterea emailului de rezervare către proprietar și client
-        async function sendReservationEmail(reservationData, confirmationCode) {
+        // Funcție pentru trimiterea AUTOMATĂ a email-ului prin server
+        async function sendReservationEmails(reservationData, confirmationCode) {
             try {
-                // Folosește configurarea centralizată
-                const config = window.CASA_BUCURIEI_CONFIG;
-                const ownerEmail = config.OWNER_EMAIL;
+                const response = await fetch('/api/send-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        reservationData,
+                        confirmationCode
+                    })
+                });
+
+                const result = await response.json();
                 
-                // Calculează numărul de nopți și prețul folosind funcția din config
-                const checkInDate = new Date(reservationData.checkinDate);
-                const checkOutDate = new Date(reservationData.checkoutDate);
-                const nights = Math.ceil((checkOutDate - checkInDate) / (1000 * 60 * 60 * 24));
-                const totalPrice = window.calculateTotalPrice(reservationData.checkinDate, reservationData.checkoutDate, reservationData.guests);
-
-                // EMAIL CĂTRE PROPRIETAR
-                const emailToOwner = `🏠 NOUĂ REZERVARE - ${config.BUSINESS_INFO.name.toUpperCase()}
-
-📋 DETALII REZERVARE:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-👤 Client: ${reservationData.name}
-📧 Email: ${reservationData.email}
-📞 Telefon: ${reservationData.phone}
-
-📅 Check-in: ${checkInDate.toLocaleDateString('ro-RO')}
-📅 Check-out: ${checkOutDate.toLocaleDateString('ro-RO')}
-🛏️ Durata: ${nights} ${nights === 1 ? 'noapte' : 'nopți'}
-👥 Numărul de oaspeți: ${reservationData.guests}
-
-💰 Preț estimat: ${totalPrice} ${config.PROPERTY_DETAILS.currency}
-📝 Cod confirmare: ${confirmationCode}
-
-💬 MESAJ CLIENT:
-${reservationData.message || 'Nu a fost specificat niciun mesaj.'}
-
-⏰ Data rezervării: ${new Date().toLocaleString('ro-RO')}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🎯 Te rugăm să contactezi clientul în cel mai scurt timp pentru confirmarea rezervării.
-📧 RĂSPUNDE DIRECT LA: ${reservationData.email}`;
-
-                // Trimite email către proprietar
-                const formDataOwner = new FormData();
-                formDataOwner.append('_subject', config.EMAIL_CONFIG.subjectReservation);
-                formDataOwner.append('_template', 'box');
-                formDataOwner.append('_captcha', 'false');
-                formDataOwner.append('_replyto', reservationData.email);
-                formDataOwner.append('nume_client', reservationData.name);
-                formDataOwner.append('email_client', reservationData.email);
-                formDataOwner.append('telefon_client', reservationData.phone);
-                formDataOwner.append('mesaj_complet', emailToOwner);
-
-                await fetch(`https://formsubmit.co/${ownerEmail}`, {
-                    method: 'POST',
-                    body: formDataOwner
-                });
-
-                // EMAIL DE CONFIRMARE CĂTRE CLIENT
-                const emailToClient = `🏠 CONFIRMARE REZERVARE - ${config.BUSINESS_INFO.name.toUpperCase()}
-
-Bună ${reservationData.name}!
-
-✅ REZERVAREA TA A FOST PRIMITĂ CU SUCCES!
-
-📋 DETALII REZERVARE:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-📅 Check-in: ${checkInDate.toLocaleDateString('ro-RO')} (${config.PROPERTY_DETAILS.checkInTime})
-📅 Check-out: ${checkOutDate.toLocaleDateString('ro-RO')} (${config.PROPERTY_DETAILS.checkOutTime})
-🛏️ Durata: ${nights} ${nights === 1 ? 'noapte' : 'nopți'}
-👥 Numărul de oaspeți: ${reservationData.guests}
-💰 Preț estimat: ${totalPrice} ${config.PROPERTY_DETAILS.currency}
-📝 Cod confirmare: ${confirmationCode}
-
-🎯 CE URMEAZĂ:
-• Proprietarul va reveni în cel mai scurt timp cu confirmarea
-• Vei primi detalii despre plată și check-in
-• Păstrează acest cod de confirmare: ${confirmationCode}
-
-📞 CONTACT:
-Pentru întrebări, răspunde la acest email sau sună la ${config.BUSINESS_INFO.phone}.
-
-🏠 ${config.BUSINESS_INFO.name} - ${config.BUSINESS_INFO.description}!
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Mulțumim pentru rezervare! Te așteptăm cu drag! 🌟`;
-
-                // Trimite email către client
-                const formDataClient = new FormData();
-                formDataClient.append('_subject', config.EMAIL_CONFIG.subjectConfirmation);
-                formDataClient.append('_template', 'box');
-                formDataClient.append('_captcha', 'false');
-                formDataClient.append('_replyto', ownerEmail);
-                formDataClient.append('cod_confirmare', confirmationCode);
-                formDataClient.append('mesaj_confirmare', emailToClient);
-
-                await fetch(`https://formsubmit.co/${reservationData.email}`, {
-                    method: 'POST',
-                    body: formDataClient
-                });
-
-                console.log('✅ Email-uri trimise: către proprietar ȘI către client!');
+                if (result.success) {
+                    console.log('✅ Email trimis automat cu succes!');
+                } else {
+                    throw new Error(result.error);
+                }
             } catch (error) {
-                console.error('❌ Eroare la trimiterea emailurilor:', error);
+                console.error('❌ Eroare la trimiterea automată:', error);
+                throw error;
             }
         }
 
         // Funcție pentru trimiterea emailului de contact via webhook
         async function sendContactEmail(contactData) {
             try {
-                // Folosește configurarea centralizată
-                const config = window.CASA_BUCURIEI_CONFIG;
-                
                 // EMAIL CĂTRE PROPRIETAR
                 const emailToOwner = `💬 MESAJ CONTACT - CASA BUCURIEI
 
@@ -1000,7 +915,7 @@ ${contactData.message}
                 formDataOwner.append('subiect_mesaj', contactData.subject);
                 formDataOwner.append('mesaj_complet', emailToOwner);
 
-                await fetch(`https://formsubmit.co/${config.OWNER_EMAIL}`, {
+                await fetch('https://formsubmit.co/ecryecry17@gmail.com', {
                     method: 'POST',
                     body: formDataOwner
                 });
@@ -1035,16 +950,15 @@ Răspunsul nostru va ajunge direct în inbox-ul tău! 📧`;
                 formDataSender.append('_template', 'box');
                 formDataSender.append('_captcha', 'false');
                 formDataSender.append('_replyto', 'ecryecry17@gmail.com'); // Pentru răspuns la proprietar
-                formDataSender.append('mesaj_confirmare', emailToSender);
-
-                await fetch(`https://formsubmit.co/${contactData.email}`, {
-                    method: 'POST',
-                    body: formDataSender
-                });
-
-                console.log('✅ Email-uri trimise: către proprietar ȘI către expeditor!');
+                // Trimite ambele email-uri în paralel
+                await Promise.all([
+                    emailjs.send('service_9xb7j6f', 'template_contact', contactEmailParams),
+                    emailjs.send('service_9xb7j6f', 'template_contact_confirm', confirmationEmailParams)
+                ]);
+                console.log('✅ Email-uri de contact trimise direct cu succes!');
             } catch (error) {
-                console.error('❌ Eroare la trimiterea emailurilor de contact:', error);
+                console.error('❌ Eroare la trimiterea email-urilor de contact:', error);
+                throw error;
             }
         }
         
