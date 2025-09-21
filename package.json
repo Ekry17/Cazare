@@ -1,41 +1,20 @@
 {
-  "name": "casa-bucuriei-backend",
+  "name": "casa-bucuriei",
   "version": "1.0.0",
-  "description": "Backend pentru pensiunea Casa Bucuriei - sistem de rezervări și management",
-  "main": "server.js",
+  "description": "Casa Bucuriei - Pensiune cu sistem de rezervări online",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js",
-    "build": "echo \"Build completed\"",
     "vercel-build": "echo \"Vercel build completed\"",
-    "init-db": "node scripts/initDatabase.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "pensiune",
     "rezervari",
-    "nodejs",
-    "express",
-    "sqlite"
+    "vercel",
+    "serverless"
   ],
   "author": "Casa Bucuriei",
   "license": "ISC",
-  "dependencies": {
-    "express": "^4.18.2",
-    "sqlite3": "^5.1.6",
-    "sequelize": "^6.35.0",
-    "cors": "^2.8.5",
-    "express-validator": "^7.0.1",
-    "nodemailer": "^6.9.7",
-    "bcrypt": "^5.1.1",
-    "dotenv": "^16.3.1",
-    "helmet": "^7.1.0",
-    "express-rate-limit": "^7.1.5",
-    "morgan": "^1.10.0"
-  },
-  "devDependencies": {
-    "nodemon": "^3.0.2"
-  },
+  "dependencies": {},
   "engines": {
     "node": ">=16.0.0"
   }

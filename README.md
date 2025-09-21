@@ -1,117 +1,322 @@
-# 🏠 CASA BUCURIEI - SITE REZERVĂRI
-## Site web complet pentru pensiuni și case de vacanță
+# Casa Bucuriei - Backend & Frontend
 
-### 🚀 FEATURES
-- ✅ **Sistem de rezervări** cu email-uri automate
-- ✅ **Formulare de contact** cu confirmări
-- ✅ **Design responsive** (mobile + desktop)
-- ✅ **Galerie foto** cu lightbox
-- ✅ **Secțiunea recenzii**
-- ✅ **Configurare centralizată**
+Backend complet pentru pensiunea Casa Bucuriei cu funcționalități de rezervări, contact și management review-uri.
 
-### ⚡ SETUP RAPID
+## 🚀 Funcționalități
 
-#### 1. Pentru un nou proprietar:
-```javascript
-// Editează config.js
-OWNER_EMAIL: 'noul_email@exemplo.com'
+### Backend (Node.js + Express)
+
+- **API REST complet** pentru rezervări, contact și review-uri
+- **Bază de date SQLite** cu Sequelize ORM
+- **Sistem de email** cu Nodemailer (confirmări, notificări)
+- **Validare completă** server-side cu express-validator
+- **Rate limiting** și securitate cu Helmet
+- **CORS configurabil** pentru domenii multiple
+- **Logging** cu Morgan
+
+### Frontend (HTML + TailwindCSS + JavaScript)
+
+- **Design responsiv** modern cu TailwindCSS
+- **Integrare API completă** cu fetch
+- **Validare în timp real** pentru formulare
+- **Calculare automată preț** pentru rezervări
+- **Mesaje de succes/eroare** interactive
+- **Loading states** pentru toate formularele
+
+### Funcționalități Business
+
+- **Rezervări online** cu verificare disponibilitate
+- **Sistem de contact** cu prioritizare mesaje
+- **Review-uri** cu moderare și featured
+- **Email-uri automate** pentru confirmări
+- **Dashboard admin** (prin API endpoints)
+
+## 📁 Structura Proiectului
+
+```
+Casa-Bucuriei/
+├── server.js                 # Server principal Express
+├── package.json              # Dependențe și scripturi
+├── .env.example              # Template variabile mediu
+├── .gitignore               # Fișiere ignorate
+├── index.html               # Frontend complet
+├── config/
+│   └── database.js          # Configurare Sequelize
+├── models/
+│   ├── index.js             # Export modele
+│   ├── Reservation.js       # Model rezervări
+│   ├── Contact.js           # Model contact
+│   └── Review.js            # Model review-uri
+├── routes/
+│   ├── reservations.js      # API rezervări
+│   ├── contact.js           # API contact
+│   └── reviews.js           # API review-uri
+├── services/
+│   └── emailService.js      # Serviciu email Nodemailer
+├── database/                # Bază de date SQLite (auto-created)
+└── scripts/                 # Scripturi utilități
 ```
 
-#### 2. Pentru personalizare completă:
-Vezi fișierul `TRANSFER_GUIDE.md` pentru instrucțiuni detaliate.
+## 🛠️ Instalare și Configurare
 
-#### 3. Deploy:
+### 1. Instalare Dependențe
+
 ```bash
-vercel --prod
+# Instalează Node.js dependencies
+npm install
 ```
 
-### 📁 STRUCTURA PROIECTULUI
-```
-📦 Casa Bucuriei
-├── 📄 index.html          # Pagina principală
-├── ⚙️ config.js           # Configurația centralizată
-├── 📂 api/
-│   └── index.js           # API pentru rezervări
-├── 📄 vercel.json         # Configurația Vercel
-├── 📖 TRANSFER_GUIDE.md   # Ghid complet de transfer
-└── 📄 README.md           # Acest fișier
-```
+### 2. Configurare Variabile de Mediu
 
-### 🔧 PERSONALIZARE
-
-**Schimbă email-ul proprietarului:**
-```javascript
-// În config.js
-OWNER_EMAIL: 'noul_email@exemplo.com'
-```
-
-**Actualizează prețurile:**
-```javascript
-// În config.js
-PROPERTY_DETAILS: {
-    pricePerNight: 200,  // RON pe noapte
-    maxGuests: 8
-}
-```
-
-**Modifică numele afacerii:**
-```javascript
-// În config.js
-BUSINESS_INFO: {
-    name: 'Numele Nou',
-    description: 'Descrierea nouă'
-}
-```
-
-### 📧 SISTEMUL DE EMAIL
-
-Site-ul trimite automat email-uri către:
-- **Proprietar** - notificare cu detaliile rezervării
-- **Client** - confirmare de rezervare
-
-**Reply-to** este configurat automat pentru răspuns direct din Gmail.
-
-### 🎨 PERSONALIZARE AVANSATĂ
-
-Pentru schimbări de design sau conținut:
-1. **Textele** - editează direct în `index.html`
-2. **Imaginile** - înlocuiește fișierele din galerie
-3. **Culorile** - folosește clasele TailwindCSS
-4. **Layout-ul** - modifică structura HTML
-
-### 🚀 DEPLOYMENT
-
-Site-ul este optimizat pentru **Vercel**:
 ```bash
-# Deploy în producție
-vercel --prod
-
-# Link-ul va fi generat automat
-# Exemplu: https://cazare-xyz.vercel.app
+# Copiază și editează fișierul de configurare
+cp .env.example .env
 ```
 
-### 🛠️ TEHNOLOGII FOLOSITE
+Editează `.env` cu setările tale:
 
-- **Frontend:** HTML5, TailwindCSS, JavaScript
-- **Backend:** Node.js (Vercel Serverless)
-- **Email:** Formsubmit.co (fără configurare)
-- **Hosting:** Vercel
-- **Database:** În memorie (pentru demo)
+```env
+# Port server
+PORT=3000
 
-### � SUPPORT
+# Email (Gmail recomandatFusionAccurate pentru test)
+EMAIL_SERVICE=gmail
+EMAIL_USER=your-email@gmail.com
+EMAIL_PASS=your-app-password
+EMAIL_FROM=Casa Bucuriei <noreply@casabucuriei.ro>
 
-Pentru probleme tehnice:
-1. Verifică Developer Tools (F12) pentru erori
-2. Testează formularul cu email-ul tău
-3. Verifică că `config.js` se încarcă corect
+# Email-uri destinație
+RESERVATION_EMAIL=rezervari@casabucuriei.ro
+CONTACT_EMAIL=contact@casabucuriei.ro
 
-### 🎯 READY-TO-SELL
+# Securitate
+SECRET_KEY=your-secret-key-here
+NODE_ENV=development
 
-Acest site este **gata pentru vânzare**:
-- ✅ Configurare centralizată în `config.js`
-- ✅ Documentație completă în `TRANSFER_GUIDE.md`
-- ✅ Cod curat și comentat
-- ✅ Design profesional
-- ✅ Funcționalitate completă
+# CORS
+ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
+```
 
-**Timpul de transfer: 5 minute** (doar editare `config.js` + deploy)!
+### 3. Configurare Email Gmail
+
+Pentru Gmail, trebuie să:
+
+1. Activezi autentificarea cu 2 factori
+2. Generezi o parolă de aplicație în contul Google
+3. Folosești parola de aplicație în `EMAIL_PASS`
+
+### 4. Pornire Server
+
+```bash
+# Dezvoltare (cu auto-restart)
+npm run dev
+
+# Producție
+npm start
+
+# Inițializare bază de date (optional)
+npm run init-db
+```
+
+## 📊 API Endpoints
+
+### Rezervări
+
+| Method | Endpoint                               | Descriere                  |
+| ------ | -------------------------------------- | -------------------------- |
+| POST   | `/api/reservations`                    | Creează rezervare nouă     |
+| GET    | `/api/reservations`                    | Listează rezervări (admin) |
+| GET    | `/api/reservations/:id`                | Obține rezervare specifică |
+| GET    | `/api/reservations/code/:code`         | Obține rezervare după cod  |
+| PUT    | `/api/reservations/:id/status`         | Actualizează status        |
+| GET    | `/api/reservations/availability/:date` | Verifică disponibilitate   |
+
+### Contact
+
+| Method | Endpoint                      | Descriere               |
+| ------ | ----------------------------- | ----------------------- |
+| POST   | `/api/contact`                | Trimite mesaj contact   |
+| GET    | `/api/contact`                | Listează mesaje (admin) |
+| GET    | `/api/contact/:id`            | Obține mesaj specific   |
+| PUT    | `/api/contact/:id/status`     | Actualizează status     |
+| GET    | `/api/contact/stats/overview` | Statistici contact      |
+
+### Review-uri
+
+| Method | Endpoint                    | Descriere                   |
+| ------ | --------------------------- | --------------------------- |
+| POST   | `/api/reviews`              | Adaugă review nou           |
+| GET    | `/api/reviews`              | Review-uri publice aprobate |
+| GET    | `/api/reviews/admin`        | Toate review-urile (admin)  |
+| PUT    | `/api/reviews/:id/status`   | Moderare review             |
+| PUT    | `/api/reviews/:id/featured` | Marchează ca featured       |
+| POST   | `/api/reviews/:id/helpful`  | Marchează ca util           |
+
+### Utilități
+
+| Method | Endpoint      | Descriere  |
+| ------ | ------------- | ---------- |
+| GET    | `/api/health` | Status API |
+
+## 💻 Utilizare Frontend
+
+### Formularul de Rezervare
+
+- **Validare în timp real** pentru toate câmpurile
+- **Calculare automată preț** bazată pe nopți și oaspeți
+- **Verificare disponibilitate** în backend
+- **Email de confirmare** automat
+- **Cod de rezervare** generat automat
+
+### Formularul de Contact
+
+- **Mesaje generale** separate de rezervări
+- **Prioritizare automată** a mesajelor
+- **Confirmări email** pentru client
+- **Notificări** pentru administratori
+
+### Integrare API
+
+JavaScript-ul include:
+
+- **Fetch API** pentru toate cererile
+- **Error handling** complet
+- **Loading states** vizuale
+- **Validare frontend** sincronizată cu backend
+- **Retry logic** pentru cereri eșuate
+
+## 🔧 Funcționalități Admin
+
+Pentru administrare, folosește endpoint-urile API direct sau construiește un dashboard custom:
+
+### Exemplu: Listare Rezervări
+
+```javascript
+fetch("/api/reservations?status=pending")
+  .then((response) => response.json())
+  .then((data) => console.log(data.data.reservations));
+```
+
+### Exemplu: Aprobare Review
+
+```javascript
+fetch("/api/reviews/123/status", {
+  method: "PUT",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ status: "approved" }),
+});
+```
+
+## 📧 Sistemul de Email
+
+### Email-uri Automate Incluse
+
+1. **Confirmare rezervare** → client
+2. **Notificare rezervare nouă** → admin
+3. **Confirmare mesaj contact** → client
+4. **Notificare mesaj nou** → admin
+5. **Update status rezervare** → client
+
+### Template-uri Email
+
+Toate email-urile folosesc template-uri HTML responsive cu:
+
+- **Design modern** consistent cu brandul
+- **Informații complete** despre rezervare/mesaj
+- **Call-to-action** buttons
+- **Footer complet** cu contact info
+
+## 🔒 Securitate
+
+- **Rate limiting** 100 requests/15 min per IP
+- **Helmet.js** pentru securitate headers
+- **Input validation** cu express-validator
+- **SQL injection protection** cu Sequelize
+- **CORS configurabil** pentru domenii specifice
+- **Error handling** fără expunere stack traces
+
+## 🚀 Deployment
+
+### Variabile de Mediu Producție
+
+```env
+NODE_ENV=production
+PORT=80
+ALLOWED_ORIGINS=https://yourdomain.com
+EMAIL_USER=your-production-email@domain.com
+# ... alte configurări
+```
+
+### Recomandări Hosting
+
+- **VPS** (DigitalOcean, Linode, AWS)
+- **Platform-as-a-Service** (Heroku, Railway)
+- **Shared hosting** cu suport Node.js
+
+### Bază de Date
+
+- **Dezvoltare**: SQLite (inclus)
+- **Producție**: PostgreSQL sau MySQL (ușor de migrat cu Sequelize)
+
+## 🔍 Testare
+
+### Test API Health
+
+```bash
+curl http://localhost:3000/api/health
+```
+
+### Test Rezervare
+
+```bash
+curl -X POST http://localhost:3000/api/reservations \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "name": "Test User",
+    "email": "test@example.com",
+    "checkinDate": "2025-10-01",
+    "checkoutDate": "2025-10-03",
+    "guests": 2
+  }'
+```
+
+## 📝 Log-uri și Monitoring
+
+- **Console logging** pentru evenimente importante
+- **Morgan logging** pentru HTTP requests
+- **Error logging** cu stack traces în development
+- **Email errors** nu opresc execuția (fail-safe)
+
+## 🎯 Următorii Pași Recomandați
+
+1. **Dashboard Admin** - interfață web pentru management
+2. **Autentificare** - sistem login pentru administratori
+3. **Notificări push** - alerts în timp real
+4. **Analytics** - tracking vizite și conversii
+5. **Multi-language** - suport română/engleză
+6. **Payment integration** - Stripe/PayPal pentru plăți online
+7. **Calendar integration** - sincronizare cu Google Calendar
+8. **SMS notifications** - confirmări prin SMS
+
+## 💡 Customizare
+
+### Modificare Preț
+
+Editează `PRICE_PER_NIGHT` în `index.html` și logica de calcul în `routes/reservations.js`.
+
+### Adăugare Câmpuri
+
+1. Modifică modelele din `models/`
+2. Actualizează validatorii din `routes/`
+3. Adaugă câmpurile în formularul HTML
+4. Actualizează JavaScript-ul frontend
+
+### Template-uri Email
+
+Modifică `services/emailService.js` pentru a customiza design-ul email-urilor.
+
+---
+
+**Aplicația este gata de utilizare!**
+
+Pornește serverul cu `npm run dev` și accesează `http://localhost:3000` pentru a testa toate funcționalitățile.
